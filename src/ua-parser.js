@@ -7,7 +7,7 @@
  * Dual licensed under GPLv2 or MIT
  */
 
-(function (window, undefined) {
+(function (self, undefined) {
 
     'use strict';
 
@@ -908,7 +908,7 @@
             return new UAParser(uastring, extensions).getResult();
         }
 
-        var ua = uastring || ((window && window.navigator && window.navigator.userAgent) ? window.navigator.userAgent : EMPTY);
+        var ua = uastring || ((self && self.navigator && self.navigator.userAgent) ? self.navigator.userAgent : EMPTY);
         var rgxmap = extensions ? util.extend(regexes, extensions) : regexes;
         //var browser = new Browser();
         //var cpu = new CPU();
@@ -1044,9 +1044,9 @@
             define(function () {
                 return UAParser;
             });
-        } else if (window) {
+        } else if (self) {
             // browser env
-            window.UAParser = UAParser;
+          self.UAParser = UAParser;
         }
     }
 
@@ -1055,7 +1055,7 @@
     //   In AMD env the global scope should be kept clean, but jQuery is an exception.
     //   jQuery always exports to global scope, unless jQuery.noConflict(true) is used,
     //   and we should catch that.
-    var $ = window && (window.jQuery || window.Zepto);
+    var $ = self && (self.jQuery || self.Zepto);
     if (typeof $ !== UNDEF_TYPE) {
         var parser = new UAParser();
         $.ua = parser.getResult();
@@ -1071,4 +1071,4 @@
         };
     }
 
-})(typeof window === 'object' ? window : this);
+})(typeof self === 'object' ? self : this);
